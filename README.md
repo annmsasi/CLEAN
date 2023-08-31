@@ -8,3 +8,5 @@ List of carcinogenic ingredients has large contributions from the data discussed
 Sephora product dataset taken from Kaggle.
 
 The extension is written utilizing Javascript and HTML to create a a popup window within a Google Chrome Tab.
+
+(Chrome Extension has been published and is under verification as of Aug. 31, 2023)
