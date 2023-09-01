@@ -18,7 +18,7 @@ const ingredients = ["Titanium dioxide",
 "Cocamide MEA",
 "monoethanolamine",
 "Toluene",
-"1,4-Dioxane",
+"Dioxane",
 "Styrene",
 "Acetaldehyde",
 "Coal tar",
@@ -29,12 +29,12 @@ const ingredients = ["Titanium dioxide",
 "Progesterone",
 "Lauramide diethanolamine",
 "Diethanolamine",
-"Benzophenone-3",
+"Benzophenone",
 "Ginkgo biloba extract",
 "Caffeine",
-"Di-n-butyl phthalate (DBP)",
+"Di-n-butyl phthalate","DBP",
 "Ethylene glycol",
-"Oil Orange SS","FD&C Orange No. 2",
+"Oil Orange SS","FD&C Orange",
 "Quartz",
 "N-Methylpyrrolidone",
 "Quinoline",
@@ -44,7 +44,7 @@ const ingredients = ["Titanium dioxide",
 "Aspirin",
 "Lead",
 "Methyl chloride",
-"2,4-Hexadienal",
+"Hexadienal",
 "beta-Myrcene",
 "Dichloromethane","methylene chloride",
 "Genistein",
@@ -52,7 +52,7 @@ const ingredients = ["Titanium dioxide",
 "Methanol",
 "o-Phenylenediamine",
 "Selenium sulfide",
-"C.I. Acid Red 114",
+"C.I. Acid Red",
 "Propylene oxide",
 "Pulegone",
 "Benzene",
@@ -67,8 +67,9 @@ const ingredients = ["Titanium dioxide",
 "Chromium (hexavalent compounds)",
 "Dichloroacetic acid",
 "Propylene glycol mono-t-butyl ether",
-"Benzophenone-4",
-"Ethanol in alcoholic beverages",
+"Benzophenone",
+"Ethanol",
+"Nickel",
 "Nickel (metallic)",
 "p-Aminodiphenylamine",
 "Permethrin",
@@ -78,7 +79,7 @@ const ingredients = ["Titanium dioxide",
 "Sodium bromate",
 "Titanium dioxide ",
 "Methenamine",
-"Quaternium-15",
+"Quaternium",
 "Diazolidinyl Urea",
 "DMDM Hydantoin",
 "Imidazolidinyl Urea",
@@ -98,32 +99,32 @@ const ingredients = ["Titanium dioxide",
 "Arsenic",
 "Cadmium",
 "Mercury",
-"Diethyl Phthalate (DEP)",
+"Diethyl Phthalate","DEP",
 "Diethyl Phthalate",
 "Dimethyl Phthalate",
-"Dimethyl Phthalate (DMP)",
+"Dimethyl Phthalate","DMP",
 "Di-n-butyl Phthalate",
-"Di-n-butyl Phthalate (DBP)",
-"Di(2-ethylhexyl) Phthalate",
-"Di(2-ethylhexyl) Phthalate (DEHP)",
+"Di-n-butyl Phthalate","DBP",
+"Di Phthalate",
+"Diethylhexyl Phthalate","DEHP",
 "Toluene",
 "Methylparaben",
 "Ethylparaben",
 "Propylparaben",
 "Butylparaben",
 "Triclosan",
-"Benzophenone-3",
+"Benzophenone",
 "Oxybenzone",
 "Oxybenzone",
-"Benzophenone-4",
-"Benzophenone-5",
+"Benzophenone",
+"Benzophenone",
 "Sulisobenzone",
 "Sulisobenzone",
 "Talc",
 "Petrolatum",
 "Mineral Oil",
-"Butylated Hydroxyanisole (BHA)",
-"Butylated Hydroxytoluene (BHT)",
+"Butylated Hydroxyanisole","BHA",
+"Butylated Hydroxytoluene","BHT",
 "Butylated Hydroxytoluene",
 "Butylated Hydroxyanisole",
 "Sodium Lauryl Sulfate",
@@ -132,11 +133,11 @@ const ingredients = ["Titanium dioxide",
 "Triethanolamine",
 "Monoethanolamine",
 "Polyethylene Glycols",
-"Sodium Lauryl Sulfate (SLS)",
-"Sodium Laureth Sulfate (SLES)",
-"Diethanolamine (DEA)",
-"Triethanolamine (TEA)",
-"Monoethanolamine (MEA)",
+"Sodium Lauryl Sulfate","SLS",
+"Sodium Laureth Sulfate","SLES",
+"Diethanolamine","DEA",
+"Triethanolamine","TEA",
+"Monoethanolamine","MEA",
 "Ethylene Oxide",
 "Polyethylene Glycols (PEGs)",
 "Sodium Myreth Sulfate",
@@ -146,9 +147,8 @@ const ingredients = ["Titanium dioxide",
 "Retinyl Palmitate",
 "Vitamin A Palmitate",
 "Aluminum Compounds",
-"Cyclotetrasiloxane (D4)",
-"Cyclopentasiloxane (D5)",
-"Cyclohexasiloxane (D6)",
+"Cyclotetrasiloxane",
+"Cyclohexasiloxane",
 "Cyclotetrasiloxane"
 ];
 document.addEventListener("DOMContentLoaded", function() {
@@ -164,7 +164,6 @@ fetch('./sephora_website_dataset.json')
     .then(response => response.text())
     .then(parsedData =>{
         try{
-        console.log(product)
         const products = JSON.parse(parsedData);
         let prod_ing = "";
         for (const productObj of products) {
@@ -173,8 +172,6 @@ fetch('./sephora_website_dataset.json')
                 break;
                 }
             }
-            console.log(product)
-            console.log(prod_ing)
         if (prod_ing === "unknown" || prod_ing === "") {
             output.textContent = ("Sorry, the ingredients of this product are currently not accessible to me.");
         }else{
@@ -201,41 +198,40 @@ fetch('./sephora_website_dataset.json')
         let carc_ings = [];
         for (let i in final_ingredients){
             let ing = final_ingredients[i].toLowerCase();
-            if (final_ingredients[i] in ingredients){
-                carc_ings.push(ing);
-                count++;
-            } else if (lower_ing.includes(ing)) {
-                carc_ings.push(ing);
-                count++;
+            if ((isNaN(ing))){
+                if (final_ingredients[i] in ingredients){
+                    carc_ings.push(ing);
+                    console.log(ing)
+                    count++;
+                } else if (lower_ing.includes(ing)) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("peg")) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("dea") && !ing.includes("dead")) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("bha")) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("aluminum")) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("bht")) {
+                    carc_ings.push(ing);
+                    count++;
 
-            } else if (ing.includes("peg")) {
-                carc_ings.push(ing);
-                count++;
-
-            } else if (ing.includes("dea")) {
-                carc_ings.push(ing);
-                count++;
-            } else if (ing.includes("bha")) {
-                carc_ings.push(ing);
-                count++;
-            } else if (ing.includes("aluminum")) {
-                carc_ings.push(ing);
-                count++;
-            } else if (ing.includes("bht")) {
-                carc_ings.push(ing);
-                count++;
-
-            } else if (ing.includes("lead")) {
-                carc_ings.push(ing);
-                count++;
-
-            } else if (ing.includes("mica")) {
-                carc_ings.push(ing);
-                count++;
+                } else if (ing.includes("lead")) {
+                    carc_ings.push(ing);
+                    count++;
+                } else if (ing.includes("mica")) {
+                    carc_ings.push(ing);
+                    count++;
+                }
             }
-            }
-            console.log(carc_ings.length)
-            let grade = ""
+        }
+
             if (carc_ings.length > 0 ){
                 output.textContent = `I found the following potentially harmful ingredients:\n ${carc_ings}`;
             }
