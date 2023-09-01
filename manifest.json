@@ -1,11 +1,15 @@
 {
-    "name": " What's in my Beauty?",
-    "version": "1.0",
+    "name": "CLEAN",
+    "version": "2.0",
     "manifest_version": 3,
     "description": "Browser extension that displays possble carcinogenic ingredients in inputed products",
-    "browser action":{
-        "default icon": "CLEAN.png",
-        "default popup": "index.html"
+    "action":{
+        "default_icon":{
+            "16": "CLEAN.png",
+            "48": "CLEAN.png",
+            "128": "CLEAN.png"
+        },
+        "default_popup": "index.html"
 
     }
 
